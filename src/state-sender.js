@@ -18,6 +18,7 @@ const listenAndSend = async state => {
     }
     console.log(result);
 
+    if (!result.length) return;
     const content = result.reduce((content, item) => {
       const val = `----------\n服务名:${item.ServiceName}\n错误输出:${item.Output}`;
       return `${content}${val}`;
@@ -95,5 +96,5 @@ export const listen = async (state, timer = 60000) => {
     if (now.getHours() === 7 && now.getMinutes() === 0) {
       await dailyReport();
     }
-  }, 1000);
+  }, 60000);
 };

@@ -20,4 +20,4 @@ export const consulConfig = {
 
 export const timer = parseInt(process.env.LISTEN_TIMER, 60000);
 
-export const monitorNode = process.env.MONITOR_NODE_NAME;
+export const monitorNode = process.env.MONITOR_NODE_NAME || 'consul-1';

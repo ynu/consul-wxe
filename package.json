@@ -4,7 +4,16 @@
   "description": "在微信企业号上管理consul",
   "keywords": [],
   "main": "index.js",
-
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ynu/wxe-consul.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ynu/wxe-consul/issues"
+  },
+  "homepage": "https://github.com/ynu/wxe-consul#readme",
   "jsnext:main": "index.es6.js",
   "babel": {
     "presets": [
@@ -23,7 +32,11 @@
     }
   },
   "dependencies": {
-    "babel-runtime": "^6.6.1"
+    "babel-runtime": "^6.6.1",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
@@ -57,16 +70,6 @@
     "build": "node tools/build",
     "prepublish": "npm run build",
     "publish:docs": "easystatic deploy docs --repo kriasoft/babel-starter-kit",
-    "start": "easystatic start docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ynu/wxe-consul.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ynu/wxe-consul/issues"
-  },
-  "homepage": "https://github.com/ynu/wxe-consul#readme"
+    "start": "babel-node src/"
+  }
 }

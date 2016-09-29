@@ -1,4 +1,4 @@
-nagucc/babel-starter-kit:1.2.0
+FROM nagucc/babel-starter-kit:1.2.0
 
 ADD package.json /app/
 ADD src /app/src

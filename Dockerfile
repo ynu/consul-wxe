@@ -1,10 +1,9 @@
-FROM node:5
+nagucc/babel-starter-kit:1.2.0
 
-ADD *.json /app/
+ADD package.json /app/
 ADD src /app/src
-ADD tools /app/tools
 WORKDIR /app
-
 RUN npm install
+EXPOSE 3000
 
-CMD npm run build
+CMD npm start

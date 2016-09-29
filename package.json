@@ -34,9 +34,12 @@
   "dependencies": {
     "babel-runtime": "^6.6.1",
     "body-parser": "^1.15.2",
+    "consul": "^0.26.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "wechat-enterprise": "^0.1.1",
+    "wxent-api-redis": "0.0.4"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
@@ -70,6 +73,6 @@
     "build": "node tools/build",
     "prepublish": "npm run build",
     "publish:docs": "easystatic deploy docs --repo kriasoft/babel-starter-kit",
-    "start": "babel-node src/"
+    "start": "babel-node src/index"
   }
 }

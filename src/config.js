@@ -18,6 +18,6 @@ export const consulConfig = {
   promisify: true,
 };
 
-export const timer = parseInt(process.env.LISTEN_TIMER, 60000);
+export const interval = parseInt(process.env.LISTEN_INTERVAL || 60000, 10);
 
 export const monitorNode = process.env.MONITOR_NODE_NAME || 'consul-1';

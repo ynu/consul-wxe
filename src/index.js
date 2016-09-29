@@ -8,7 +8,7 @@ import 'babel-polyfill';
 // import express from 'express';
 // import cookieParser from 'cookie-parser';
 // import bodyParser from 'body-parser';
-import { timer } from './config';
+import { interval } from './config';
 // import route from './route';
 import { listen } from './state-sender';
 
@@ -34,4 +34,4 @@ import { listen } from './state-sender';
 //   console.log(`The server is running at http://${host}/`);
 // });
 
-listen('critical', timer);
+listen('critical');

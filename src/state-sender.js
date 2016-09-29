@@ -4,7 +4,7 @@
 
 import Api from 'wxent-api-redis';
 import Consul from 'consul';
-import { wxeConfig, redisConfig, consulConfig, monitorNode } from './config';
+import { wxeConfig, redisConfig, consulConfig, monitorNode, interval } from './config';
 
 const consul = Consul(consulConfig);
 const wxapi = Api(wxeConfig.corpId, wxeConfig.secret, wxeConfig.angetId,
@@ -41,11 +41,7 @@ const listenAndSend = async state => {
 
 const dailyReport = async hour => {
   try {
-    let result = await consul.health.state('any');
-    if (monitorNode) {
-      result = result.filter(item => item.Node === monitorNode);
-    }
-    console.log(result);
+    const result = await consul.health.state('any');
 
     const checkStat = result.reduce((stat, item) => {
       switch (item.Status) {
@@ -87,14 +83,12 @@ const dailyReport = async hour => {
   }
 };
 
-export const listen = async (state, timer = 60000) => {
-  setTimeout(() => (listenAndSend(state)), timer);
-  setTimeout(async () => {
+export const listen = (state) => {
+  setInterval(() => (listenAndSend(state)), interval);
+  setInterval(() => {
     const now = new Date();
-    console.log(now.getHours());
-    console.log(now.getMinutes());
-    if (now.getHours() === 7 && now.getMinutes() === 0) {
-      await dailyReport();
+    if (now.getHours() === 7 && now.getMinutes() === 36) {
+      dailyReport();
     }
   }, 60000);
 };

@@ -5,14 +5,14 @@ eslint-disable no-console
 
 import 'babel-polyfill';
 
-// import express from 'express';
+import express from 'express';
 // import cookieParser from 'cookie-parser';
 // import bodyParser from 'body-parser';
-import { interval } from './config';
+import { port, host } from './config';
 // import route from './route';
 import { listen } from './state-sender';
 
-// const app = express();
+const app = express();
 //
 // //
 // // Register Node.js middleware
@@ -30,8 +30,8 @@ import { listen } from './state-sender';
 // */
 // app.use('/route', route);
 //
-// app.listen(port, () => {
-//   console.log(`The server is running at http://${host}/`);
-// });
+app.listen(port, () => {
+  console.log(`The server is running at http://${host}/`);
+});
 
 listen('critical');

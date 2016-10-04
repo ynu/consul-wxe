@@ -11,6 +11,7 @@ const wxapi = Api(wxeConfig.corpId, wxeConfig.secret, wxeConfig.angetId,
   redisConfig.host, redisConfig.port);
 
 const listenAndSend = async state => {
+  console.log('listen on : ', new Date());
   try {
     let result = await consul.health.state(state);
     if (monitorNode) {
@@ -87,7 +88,7 @@ export const listen = (state) => {
   setInterval(() => (listenAndSend(state)), interval);
   setInterval(() => {
     const now = new Date();
-    if (now.getHours() === 7 && now.getMinutes() === 36) {
+    if (now.getHours() === 7 && now.getMinutes() === 30) {
       dailyReport();
     }
   }, 60000);

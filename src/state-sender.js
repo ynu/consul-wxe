@@ -87,7 +87,7 @@ export const listen = (state) => {
   setInterval(() => (listenAndSend(state)), interval);
   setInterval(() => {
     const now = new Date();
-    if (now.getHours() === hour) {
+    if (now.getHours() === hour && now.getMinutes() === 0) {
       dailyReport();
     }
   }, 60000);

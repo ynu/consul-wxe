@@ -21,3 +21,9 @@ export const consulConfig = {
 export const interval = parseInt(process.env.LISTEN_INTERVAL || 60000, 10);
 
 export const monitorNode = process.env.MONITOR_NODE_NAME || 'consul-1';
+
+// 用于接收监控消息的微信企业号tag
+export const supervisorTag = parseInt(process.env.SUPERVISOR_TAG || '1', 10);
+
+// 每日报告发出的时间（整点）
+export const hour = parseInt(process.env.DAILY_REPORT_HOUR || '8', 10);

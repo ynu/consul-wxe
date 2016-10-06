@@ -4,7 +4,8 @@
 
 import Api from 'wxent-api-redis';
 import Consul from 'consul';
-import { wxeConfig, redisConfig, consulConfig, monitorNode, interval } from './config';
+import { wxeConfig, redisConfig, consulConfig,
+  monitorNode, interval, supervisorTag, hour } from './config';
 
 const consul = Consul(consulConfig);
 const wxapi = Api(wxeConfig.corpId, wxeConfig.secret, wxeConfig.angetId,
@@ -23,7 +24,7 @@ const listenAndSend = async state => {
       return `${content}${val}`;
     }, '【关键系统故障】\n');
     wxapi.send({
-      totag: 1,
+      totag: supervisorTag,
     }, {
       msgtype: 'text',
       text: {
@@ -38,7 +39,7 @@ const listenAndSend = async state => {
   }
 };
 
-const dailyReport = async hour => {
+const dailyReport = async () => {
   try {
     const result = await consul.health.state('any');
 
@@ -67,7 +68,7 @@ const dailyReport = async hour => {
       }
     }, { passing: 0, warning: 0, critical: 0, other: 0 });
     wxapi.send({
-      totag: 1,
+      totag: supervisorTag,
     }, {
       msgtype: 'text',
       text: {
@@ -86,7 +87,7 @@ export const listen = (state) => {
   setInterval(() => (listenAndSend(state)), interval);
   setInterval(() => {
     const now = new Date();
-    if (now.getHours() === 7 && now.getMinutes() === 30) {
+    if (now.getHours() === hour) {
       dailyReport();
     }
   }, 60000);

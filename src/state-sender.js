@@ -1,17 +1,17 @@
 /*
- eslint-disable no-consule
+ eslint-disable no-console, new-cap
 */
 
 import Api from 'wxent-api-redis';
 import Consul from 'consul';
 import { wxeConfig, redisConfig, consulConfig,
-  monitorNode, interval, supervisorTag, hour } from './config';
+  monitorNode, supervisorTag } from './config';
 
 const consul = Consul(consulConfig);
 const wxapi = Api(wxeConfig.corpId, wxeConfig.secret, wxeConfig.angetId,
   redisConfig.host, redisConfig.port);
 
-const listenAndSend = async state => {
+export const check = async (state = 'critical') => {
   try {
     let result = await consul.health.state(state);
     if (monitorNode) {
@@ -19,9 +19,9 @@ const listenAndSend = async state => {
     }
 
     if (!result.length) return;
-    const content = result.reduce((content, item) => {
+    const content = result.reduce((text, item) => {
       const val = `----------\n服务名:${item.ServiceName}\n错误输出:${item.Output}`;
-      return `${content}${val}`;
+      return `${text}${val}`;
     }, '【关键系统故障】\n');
     wxapi.send({
       totag: supervisorTag,
@@ -39,7 +39,7 @@ const listenAndSend = async state => {
   }
 };
 
-const dailyReport = async () => {
+export const report = async () => {
   try {
     const result = await consul.health.state('any');
 
@@ -48,31 +48,33 @@ const dailyReport = async () => {
         case 'critical':
           return {
             ...stat,
-            critical: stat.critical + 1,
+            错误: stat.错误 + 1,
           };
         case 'passing':
           return {
             ...stat,
-            passing: stat.passing + 1,
+            正常: stat.正常 + 1,
           };
         case 'warning':
           return {
             ...stat,
-            warning: stat.warning + 1,
+            警告: stat.警告 + 1,
           };
         default:
           return {
             ...stat,
-            other: stat.other + 1,
+            其他: stat.其他 + 1,
           };
       }
-    }, { passing: 0, warning: 0, critical: 0, other: 0 });
+    }, { 正常: 0, 警告: 0, 错误: 0, 其他: 0 });
     wxapi.send({
       totag: supervisorTag,
     }, {
       msgtype: 'text',
       text: {
-        content: `【系统状态报告】\n正常:${checkStat.passing}\n警告:${checkStat.warning}\n报警:${checkStat.critical}\n其他:${checkStat.other}`,
+        content: Object.entries(checkStat).reduce((stat, item) => (
+            `${stat}\n${item[0]}: ${item[1]}`
+          ), '【系统状态报告】\n---------'),
       },
       safe: 0,
     }, (err, res) => {
@@ -81,14 +83,4 @@ const dailyReport = async () => {
   } catch (e) {
     console.log(e);
   }
-};
-
-export const listen = (state) => {
-  setInterval(() => (listenAndSend(state)), interval);
-  setInterval(() => {
-    const now = new Date();
-    if (now.getHours() === hour && now.getMinutes() === 0) {
-      dailyReport();
-    }
-  }, 60000);
 };

@@ -6,14 +6,14 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ynu/wxe-consul.git"
+    "url": "git+https://github.com/ynu/consul-wxe.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ynu/wxe-consul/issues"
+    "url": "https://github.com/ynu/consul-wxe/issues"
   },
-  "homepage": "https://github.com/ynu/wxe-consul#readme",
+  "homepage": "https://github.com/ynu/consul-wxe#readme",
   "jsnext:main": "index.es6.js",
   "babel": {
     "presets": [
